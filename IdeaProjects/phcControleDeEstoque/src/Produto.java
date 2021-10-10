@@ -1,16 +1,16 @@
 public class Produto{
 
-    private long id;
+    private String id;
     private String nome;
     private String numSerial;
-    private TipoDeProduto tipo;
-    private int quantidade;
+    private String tipo;
+    private String quantidade;
     private String estadoConservacao;
 
     public Produto() {
     }
 
-    public Produto(long id, String nome, String numSerial, TipoDeProduto tipo, int quantidade, String estadoConservacao) {
+    public Produto(String id, String nome, String numSerial, String tipo, String quantidade, String estadoConservacao) {
         this.id = id;
         this.nome = nome;
         this.numSerial = numSerial;
@@ -19,11 +19,11 @@ public class Produto{
         this.estadoConservacao = estadoConservacao;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -43,19 +43,19 @@ public class Produto{
         this.numSerial = numSerial;
     }
 
-    public TipoDeProduto getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoDeProduto tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    public int getQuantidade() {
+    public String getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -69,13 +69,12 @@ public class Produto{
 
     @Override
     public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", numSerial='" + numSerial + '\'' +
-                ", tipo=" + tipo +
-                ", quantidade=" + quantidade +
-                ", estadoConservacao='" + estadoConservacao + '\'' +
-                '}';
+        return  id + '\n' +
+                nome + '\n' +
+                numSerial + '\n' +
+                tipo + '\n' +
+                quantidade + '\n' +
+                estadoConservacao + '\n';
     }
+
 }

@@ -20,10 +20,14 @@ public class ListaDeProdutos {
         this.lista = lista;
     }
 
+    public int size(){
+
+        return lista.size();
+
+    }
+
     @Override
     public String toString() {
-        return "ListaDeProdutos{" +
-                "lista=" + lista +
-                '}';
+        return "ListaDeProdutos: " + '\n' + lista;
     }
 }

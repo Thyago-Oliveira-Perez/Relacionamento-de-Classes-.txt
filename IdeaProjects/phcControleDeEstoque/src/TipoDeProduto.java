@@ -19,8 +19,6 @@ public class TipoDeProduto{
 
     @Override
     public String toString() {
-        return "TipoDeProduto{" +
-                "tipo='" + tipo + '\'' +
-                '}';
+        return tipo;
     }
 }

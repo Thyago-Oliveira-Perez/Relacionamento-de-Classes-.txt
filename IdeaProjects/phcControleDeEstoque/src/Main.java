@@ -114,9 +114,17 @@ public class Main{
                         }
                         i++;
                     }
+
+                    System.out.println("--------------------------------------------------------------------------------------------------------");
+                    System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
+                    System.out.println("--------------------------------------------------------------------------------------------------------");
+
                     for(int j = 0; j < listaDoArquivo.size(); j++) {
-                        System.out.println(listaDoArquivo.get(j));
+                        System.out.println(j+1 + "   " + listaDoArquivo.get(j));
                     }
+
+                    System.out.println("Escolha o produto que deseja editar.");
+
                 break;
 
                 case 3:

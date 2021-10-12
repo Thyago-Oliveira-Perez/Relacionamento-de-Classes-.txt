@@ -69,12 +69,7 @@ public class Produto{
 
     @Override
     public String toString() {
-        return  "Id: " + id + "\n" +
-                "Nome: " + nome + "\n" +
-                "Numero Serial: " + numSerial + "\n" +
-                "Tipo: " + tipo + "\n" +
-                "Quantidade: " + quantidade + "\n" +
-                "Estado de Conservação: " + estadoConservacao + "\n"
+        return  id  + "         " + nome + "            " + numSerial + "            " + tipo + "            " + quantidade + "                  " + estadoConservacao
                 ;
     }
 }

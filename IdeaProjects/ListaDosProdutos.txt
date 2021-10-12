@@ -1,7 +1,4 @@
-Id: 0001
-Nome: thyago
-Numero Serial: porra0-2
-Tipo: Eletronico
-Quantidade: velho
-Estado de Conservação: novo
+0001         teclado            00213            Eletronico            20                   novo
+
+0002         mouse            00003            Eletronico            45                  novo
 

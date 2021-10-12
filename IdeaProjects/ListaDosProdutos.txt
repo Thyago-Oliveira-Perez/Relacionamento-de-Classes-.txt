@@ -1,7 +1,7 @@
-0001
-thyago
-porra02
-Eletronico
-40
-novo
+Id: 0001
+Nome: thyago
+Numero Serial: porra0-2
+Tipo: Eletronico
+Quantidade: velho
+Estado de Conservação: novo
 

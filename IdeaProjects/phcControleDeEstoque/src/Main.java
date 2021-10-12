@@ -36,7 +36,7 @@ public class Main{
 
                 case 1:
 
-                    while (validacao1 == 0) {
+                    while (true) {
 
                         System.out.println("Id:");
                         String id = entrada.next();
@@ -70,10 +70,10 @@ public class Main{
                             }
                         } while (validacao == 0);
 
-                        System.out.printf("Quantidade:");
+                        System.out.print("Quantidade:");
                         String quant = entrada.next();
 
-                        System.out.printf("Estado de consevação:");
+                        System.out.print("Estado de consevação:");
                         String estConservacao = entrada.next();
 
                         produto = new Produto(id, nome, numSerial, tipo, quant, estConservacao);
@@ -98,8 +98,7 @@ public class Main{
                             break;
                         }
                     }
-
-                    break;
+                break;
 
                 case 2:
 
@@ -110,12 +109,14 @@ public class Main{
                     while(lendo != null){
 
                         lendo = lerArquivoTxt.readLine();
-                        listaDoArquivo.add(i, lendo + "\n");
+                        if(lendo != null){
+                            listaDoArquivo.add(i, lendo);
+                        }
                         i++;
                     }
-
-                    System.out.println(listaDoArquivo);
-
+                    for(int j = 0; j < listaDoArquivo.size(); j++) {
+                        System.out.println(listaDoArquivo.get(j));
+                    }
                 break;
 
                 case 3:
@@ -127,7 +128,7 @@ public class Main{
                     if (sair == 1) {
                         exit(0);
                     }
-                    break;
+                break;
             }
     }
 

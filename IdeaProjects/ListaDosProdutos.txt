@@ -1,4 +1,0 @@
-0001         teclado            00213            Eletronico            20                   novo
-
-0002         mouse            00003            Eletronico            45                  novo
-

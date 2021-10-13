@@ -4,6 +4,7 @@ import java.util.List;
 public class ListaDeProdutos {
 
     List<Produto> lista = new ArrayList<Produto>();
+    String limpar;
 
     public ListaDeProdutos() {
     }
@@ -29,5 +30,11 @@ public class ListaDeProdutos {
     @Override
     public String toString() {
         return "ListaDeProdutos: " + '\n' + lista;
+    }
+
+    public void clear() {
+
+        lista.clear();
+
     }
 }

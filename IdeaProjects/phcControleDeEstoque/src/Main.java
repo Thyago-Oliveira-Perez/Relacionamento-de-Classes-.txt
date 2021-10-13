@@ -1,11 +1,10 @@
 import javax.xml.stream.events.EndDocument;
 import java.io.*;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 import static java.lang.System.exit;
-
-
 
 public class Main{
 
@@ -20,12 +19,13 @@ public class Main{
         int validacao1 = 0;
         String tipo = "";
 
-        String arquivoDosProdutos = "C:\\Users\\Thyago\\Desktop\\ERP_inventory\\IdeaProjects\\ListaDosProdutos.txt";
+        File arquivoDeTexto = new File ("C:\\Users\\Thyago\\Desktop\\ERP_inventory\\IdeaProjects\\ListaDosProdutos.txt");
 
-        FileWriter arquivoTxt = new FileWriter(arquivoDosProdutos, true);
-        PrintWriter gravaArquivoTxt = new PrintWriter(arquivoTxt);
+        if(!arquivoDeTexto.isFile()){
+            arquivoDeTexto.createNewFile();
+        }
 
-        FileReader arquivoTxt1 = new FileReader(arquivoDosProdutos);
+        FileReader arquivoTxt1 = new FileReader(arquivoDeTexto);
         BufferedReader lerArquivoTxt = new BufferedReader(arquivoTxt1);
 
         while(true){
@@ -37,6 +37,9 @@ public class Main{
                 case 1:
 
                     while (true) {
+
+                        FileWriter arquivoTxt = new FileWriter(arquivoDeTexto, true);
+                        PrintWriter gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
                         System.out.println("Id:");
                         String id = entrada.next();
@@ -91,6 +94,11 @@ public class Main{
                                 gravaArquivoTxt.println(listaDeProdutos.getLista().get(i));
 
                             }
+
+                            //limpa a lista para nao salvar duplicado no arquivo
+                            //devido ao menu ser navegavel
+                            listaDeProdutos.clear();
+
                             gravaArquivoTxt.flush();
                             arquivoTxt.close();
                             gravaArquivoTxt.close();

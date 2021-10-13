@@ -146,6 +146,13 @@ public class Main{
                     String produtoParaEditar = listaDoArquivo.get(produtoEscolhido - 1);
                     String[] editaOsValores = produtoParaEditar.split(";");
 
+                    produto.setId(editaOsValores[0]);
+                    produto.setNome(editaOsValores[1]);
+                    produto.setNumSerial(editaOsValores[2]);
+                    produto.setTipo(editaOsValores[3]);
+                    produto.setQuantidade(editaOsValores[4]);
+                    produto.setEstadoConservacao(editaOsValores[5]);
+
                     System.out.println("Editar:");
                     System.out.println("1 - Id:     4 - Tipo:");
                     System.out.println("2 - Nome:       5 - Quantidade:");
@@ -155,11 +162,31 @@ public class Main{
                     System.out.println("Digite o novo valor:");
                     String novaInfo = entrada.next();
 
-                    editaOsValores[infoParaEditar - 1] = novaInfo;
+                    switch(infoParaEditar - 1){
+
+                        case 0:
+                            produto.setId(novaInfo);
+                        break;
+                        case 1:
+                            produto.setNome(novaInfo);
+                        break;
+                        case 2:
+                            produto.setNumSerial(novaInfo);
+                        break;
+                        case 3:
+                            produto.setTipo(novaInfo);
+                        break;
+                        case 4:
+                            produto.setQuantidade(novaInfo);
+                        break;
+                        case 5:
+                            produto.setEstadoConservacao(novaInfo);
+                        break;
+                    }
 
                     listaDoArquivo.remove(produtoEscolhido - 1);
 
-                    listaDoArquivo.add(produtoEscolhido - 1, Arrays.toString(editaOsValores));
+                    listaDoArquivo.add(produtoEscolhido - 1, produto.toString());
 
                     for(int p = 0; p < listaDoArquivo.size(); p++){
                         gravaArquivoTxt.println(listaDoArquivo.get(p));

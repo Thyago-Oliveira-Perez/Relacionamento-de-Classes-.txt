@@ -4,7 +4,9 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
+import java.lang.String;
 import static java.lang.System.exit;
+
 
 public class Main{
 
@@ -25,6 +27,9 @@ public class Main{
             arquivoDeTexto.createNewFile();
         }
 
+        FileWriter arquivoTxt = new FileWriter(arquivoDeTexto, true);
+        PrintWriter gravaArquivoTxt = new PrintWriter(arquivoTxt);
+
         FileReader arquivoTxt1 = new FileReader(arquivoDeTexto);
         BufferedReader lerArquivoTxt = new BufferedReader(arquivoTxt1);
 
@@ -38,8 +43,8 @@ public class Main{
 
                     while (true) {
 
-                        FileWriter arquivoTxt = new FileWriter(arquivoDeTexto, true);
-                        PrintWriter gravaArquivoTxt = new PrintWriter(arquivoTxt);
+                        arquivoTxt = new FileWriter(arquivoDeTexto, true);
+                        gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
                         System.out.println("Id:");
                         String id = entrada.next();
@@ -106,18 +111,22 @@ public class Main{
                             break;
                         }
                     }
-                break;
+                    break;
 
                 case 2:
+
+                    arquivoTxt = new FileWriter(arquivoDeTexto, true);
+                    gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
                     String lendo = "";
                     int i = 0;
                     lendo = "A";
 
-                    while(lendo != null){
+                    while (lendo != null) {
 
                         lendo = lerArquivoTxt.readLine();
-                        if(lendo != null){
+
+                        if (lendo != null) {
                             listaDoArquivo.add(i, lendo);
                         }
                         i++;
@@ -127,11 +136,37 @@ public class Main{
                     System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
                     System.out.println("--------------------------------------------------------------------------------------------------------");
 
-                    for(int j = 0; j < listaDoArquivo.size(); j++) {
-                        System.out.println(j+1 + "   " + listaDoArquivo.get(j));
+                    for (int j = 0; j < listaDoArquivo.size(); j++) {
+                        System.out.println(j + 1 + "   " + listaDoArquivo.get(j));
                     }
 
-                    System.out.println("Escolha o produto que deseja editar.");
+                    System.out.println("Escolha o produto que deseja editar:");
+                    int produtoEscolhido = entrada.nextInt();
+
+                    String produtoParaEditar = listaDoArquivo.get(produtoEscolhido - 1);
+                    String[] editaOsValores = produtoParaEditar.split(";");
+
+                    System.out.println("Editar:");
+                    System.out.println("1 - Id:     4 - Tipo:");
+                    System.out.println("2 - Nome:       5 - Quantidade:");
+                    System.out.println("3 - N° Serial:      6 - Estado de Conservação:");
+                    int infoParaEditar = entrada.nextInt();
+
+                    System.out.println("Digite o novo valor:");
+                    String novaInfo = entrada.next();
+
+                    editaOsValores[infoParaEditar - 1] = novaInfo;
+
+                    listaDoArquivo.remove(produtoEscolhido - 1);
+
+                    listaDoArquivo.add(produtoEscolhido - 1, Arrays.toString(editaOsValores));
+
+                    for(int p = 0; p < listaDoArquivo.size(); p++){
+                        gravaArquivoTxt.println(listaDoArquivo.get(p));
+                    }
+                    gravaArquivoTxt.flush();
+                    arquivoTxt.close();
+                    gravaArquivoTxt.close();
 
                 break;
 

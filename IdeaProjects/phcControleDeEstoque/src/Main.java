@@ -16,12 +16,13 @@ public class Main{
         ListaDeProdutos listaDeProdutos = new ListaDeProdutos();
         List<String> listaDoArquivo = new ArrayList<>();
 
-        Scanner entrada = new Scanner(System.in);
+        Scanner entrada = new Scanner(System.in).useDelimiter("\n");
+
         int validacao = 0;
         int validacao1 = 0;
         String tipo = "";
 
-        File arquivoDeTexto = new File ("C:\\Users\\Thyago\\Desktop\\ERP_inventory\\IdeaProjects\\ListaDosProdutos.txt");
+        File arquivoDeTexto = new File ("ListaDosProdutos.txt");
 
         if(!arquivoDeTexto.isFile()){
             arquivoDeTexto.createNewFile();
@@ -115,9 +116,6 @@ public class Main{
 
                 case 2:
 
-                    arquivoTxt = new FileWriter(arquivoDeTexto, true);
-                    gravaArquivoTxt = new PrintWriter(arquivoTxt);
-
                     String lendo = "";
                     int i = 0;
                     lendo = "A";
@@ -126,7 +124,7 @@ public class Main{
 
                         lendo = lerArquivoTxt.readLine();
 
-                        if (lendo != null) {
+                        if (lendo != null && !lendo.isEmpty()) {
                             listaDoArquivo.add(i, lendo);
                         }
                         i++;
@@ -136,8 +134,24 @@ public class Main{
                     System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
                     System.out.println("--------------------------------------------------------------------------------------------------------");
 
+//                    String arroba = "";
+//                    arroba = listaDoArquivo.get(0);
+//
+//                    System.out.println(arroba);
+
                     for (int j = 0; j < listaDoArquivo.size(); j++) {
-                        System.out.println(j + 1 + "   " + listaDoArquivo.get(j));
+
+                        String produtoDalista = listaDoArquivo.get(j);
+                        String[] valorEditar = produtoDalista.split(";");
+
+                        produto.setId(valorEditar[0]);
+                        produto.setNome(valorEditar[1]);
+                        produto.setNumSerial(valorEditar[2]);
+                        produto.setTipo(valorEditar[3]);
+                        produto.setQuantidade(valorEditar[4]);
+                        produto.setEstadoConservacao(valorEditar[5]);
+
+                        System.out.println(j + 1 + "   " + produto.Mostrar());
                     }
 
                     System.out.println("Escolha o produto que deseja editar:");
@@ -188,9 +202,13 @@ public class Main{
 
                     listaDoArquivo.add(produtoEscolhido - 1, produto.toString());
 
+                    arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                    gravaArquivoTxt = new PrintWriter(arquivoTxt);
+
                     for(int p = 0; p < listaDoArquivo.size(); p++){
                         gravaArquivoTxt.println(listaDoArquivo.get(p));
                     }
+
                     gravaArquivoTxt.flush();
                     arquivoTxt.close();
                     gravaArquivoTxt.close();
@@ -207,6 +225,7 @@ public class Main{
                         exit(0);
                     }
                 break;
+
             }
     }
 
@@ -226,4 +245,5 @@ public class Main{
         return opcao;
 
     }
+
 }

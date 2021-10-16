@@ -1,5 +1,8 @@
 import javax.xml.stream.events.EndDocument;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,14 +17,14 @@ public class Main{
 
         Produto produto = new Produto();
         ListaDeProdutos listaDeProdutos = new ListaDeProdutos();
-        List<String> listaDoArquivo = new ArrayList<>();
+        //List<String> listaDoArquivo = new ArrayList<>();
 
-        Scanner entrada = new Scanner(System.in);
+        Scanner entrada = new Scanner(System.in).useDelimiter("\n");
+
         int validacao = 0;
-        int validacao1 = 0;
         String tipo = "";
 
-        File arquivoDeTexto = new File ("C:\\Users\\Thyago\\Desktop\\ERP_inventory\\IdeaProjects\\ListaDosProdutos.txt");
+        File arquivoDeTexto = new File ("ListaDosProdutos.txt");
 
         if(!arquivoDeTexto.isFile()){
             arquivoDeTexto.createNewFile();
@@ -43,9 +46,12 @@ public class Main{
 
                     while (true) {
 
+                        ////instanciando o arquivo
                         arquivoTxt = new FileWriter(arquivoDeTexto, true);
                         gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
+
+                        ////registrando o produto
                         System.out.println("Id:");
                         String id = entrada.next();
 
@@ -87,7 +93,8 @@ public class Main{
                         produto = new Produto(id, nome, numSerial, tipo, quant, estConservacao);
 
                         listaDeProdutos.getLista().add(produto);
-
+                        ////
+                        
                         System.out.println("Deseja continuar?");
                         System.out.println("1 - Sim | 2 - Não");
                         int continuarOuNao = entrada.nextInt();
@@ -115,88 +122,70 @@ public class Main{
 
                 case 2:
 
-                    arquivoTxt = new FileWriter(arquivoDeTexto, true);
-                    gravaArquivoTxt = new PrintWriter(arquivoTxt);
+                    //Lê o arquivo
+                    Path path = Paths.get("ListaDosProdutos.txt");
+                    List <String> listaDoArquivo = Files.readAllLines(path);
+                    //
 
-                    String lendo = "";
-                    int i = 0;
-                    lendo = "A";
+                    //Mostrando os produtos que estão no arquivo
+                    mostraOsTodosOsProdutos(listaDoArquivo);
+                    //
 
-                    while (lendo != null) {
-
-                        lendo = lerArquivoTxt.readLine();
-
-                        if (lendo != null) {
-                            listaDoArquivo.add(i, lendo);
-                        }
-                        i++;
-                    }
-
-                    System.out.println("--------------------------------------------------------------------------------------------------------");
-                    System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
-                    System.out.println("--------------------------------------------------------------------------------------------------------");
-
-                    for (int j = 0; j < listaDoArquivo.size(); j++) {
-                        System.out.println(j + 1 + "   " + listaDoArquivo.get(j));
-                    }
-
-                    System.out.println("Escolha o produto que deseja editar:");
+                    ///////
+                    System.out.println("Escolha o produto:");
                     int produtoEscolhido = entrada.nextInt();
 
                     String produtoParaEditar = listaDoArquivo.get(produtoEscolhido - 1);
                     String[] editaOsValores = produtoParaEditar.split(";");
 
-                    produto.setId(editaOsValores[0]);
-                    produto.setNome(editaOsValores[1]);
-                    produto.setNumSerial(editaOsValores[2]);
-                    produto.setTipo(editaOsValores[3]);
-                    produto.setQuantidade(editaOsValores[4]);
-                    produto.setEstadoConservacao(editaOsValores[5]);
+                    Produto produtoEditar = new Produto(editaOsValores[0], editaOsValores[1], editaOsValores[2], editaOsValores[3], editaOsValores[4], editaOsValores[5]);
 
-                    System.out.println("Editar:");
-                    System.out.println("1 - Id:     4 - Tipo:");
-                    System.out.println("2 - Nome:       5 - Quantidade:");
-                    System.out.println("3 - N° Serial:      6 - Estado de Conservação:");
-                    int infoParaEditar = entrada.nextInt();
+                    System.out.println("1 - Editar \n 2 - Excluir \n 3 - Sair");
+                    int editOuExcl =  entrada.nextInt();
 
-                    System.out.println("Digite o novo valor:");
-                    String novaInfo = entrada.next();
+                    switch (editOuExcl){
 
-                    switch(infoParaEditar - 1){
-
-                        case 0:
-                            produto.setId(novaInfo);
-                        break;
                         case 1:
-                            produto.setNome(novaInfo);
+
+                            editaOsProdutos(listaDoArquivo, entrada, produtoEditar, produtoEscolhido);
+
+                            ////salva o arquivo
+                            arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                            gravaArquivoTxt = new PrintWriter(arquivoTxt);
+
+                            for(int p = 0; p < listaDoArquivo.size(); p++){
+                                gravaArquivoTxt.println(listaDoArquivo.get(p));
+                            }
+
+                            gravaArquivoTxt.flush();
+                            arquivoTxt.close();
+                            gravaArquivoTxt.close();
+                            ////salva o arquivo
+
                         break;
+
                         case 2:
-                            produto.setNumSerial(novaInfo);
-                        break;
-                        case 3:
-                            produto.setTipo(novaInfo);
-                        break;
-                        case 4:
-                            produto.setQuantidade(novaInfo);
-                        break;
-                        case 5:
-                            produto.setEstadoConservacao(novaInfo);
+
+                            ////remove o item da lista antes de salvar no arquivo
+                            listaDoArquivo.remove(produtoEscolhido - 1);
+                            ////
+
+                            ////salva no arquivo
+                            arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                            gravaArquivoTxt = new PrintWriter(arquivoTxt);
+
+                            for(int p = 0; p < listaDoArquivo.size(); p++){
+                                gravaArquivoTxt.println(listaDoArquivo.get(p));
+                            }
+
+                            gravaArquivoTxt.flush();
+                            arquivoTxt.close();
+                            gravaArquivoTxt.close();
+                            ////salva no arquivo
+
                         break;
                     }
-
-                    listaDoArquivo.remove(produtoEscolhido - 1);
-
-                    listaDoArquivo.add(produtoEscolhido - 1, produto.toString());
-
-                    for(int p = 0; p < listaDoArquivo.size(); p++){
-                        gravaArquivoTxt.println(listaDoArquivo.get(p));
-                    }
-                    gravaArquivoTxt.flush();
-                    arquivoTxt.close();
-                    gravaArquivoTxt.close();
-
                 break;
-
                 case 3:
 
                     System.out.println("Deseja mesmo sair?");
@@ -208,7 +197,7 @@ public class Main{
                     }
                 break;
             }
-    }
+        }
 
     }
 
@@ -219,11 +208,71 @@ public class Main{
         System.out.println("----------------");
 
         System.out.println("1 - Cadastrar Produto");
-        System.out.println("2 - Editar Produto");
+        System.out.println("2 - Mostrar produtos");
         System.out.println("3 - Sair");
         int opcao = entrada.nextInt();
 
         return opcao;
 
     }
+
+    public static void mostraOsTodosOsProdutos(List<String> listaDoArquivo){
+
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+
+        for (int j = 0; j < listaDoArquivo.size(); j++) {
+
+            String produtoDalista = listaDoArquivo.get(j);
+
+            String[] valorEditar = produtoDalista.split(";");
+
+            Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
+
+            System.out.println(p.Mostrar());
+
+        }
+
+    }
+
+    public static void editaOsProdutos(List<String> listaDoArquivo, Scanner entrada, Produto produtoEditar, int produtoEscolhido){
+
+        System.out.println("Editar:");
+        System.out.println("1 - Id:     4 - Tipo:");
+        System.out.println("2 - Nome:       5 - Quantidade:");
+        System.out.println("3 - N° Serial:      6 - Estado de Conservação:");
+        int infoParaEditar = entrada.nextInt();
+
+        System.out.println("Digite o novo valor:");
+        String novaInfo = entrada.next();
+
+        switch(infoParaEditar - 1){
+
+            case 0:
+                produtoEditar.setId(novaInfo);
+                break;
+            case 1:
+                produtoEditar.setNome(novaInfo);
+                break;
+            case 2:
+                produtoEditar.setNumSerial(novaInfo);
+                break;
+            case 3:
+                produtoEditar.setTipo(novaInfo);
+                break;
+            case 4:
+                produtoEditar.setQuantidade(novaInfo);
+                break;
+            case 5:
+                produtoEditar.setEstadoConservacao(novaInfo);
+                break;
+        }
+
+        listaDoArquivo.remove(produtoEscolhido - 1);
+
+        listaDoArquivo.add(produtoEscolhido - 1, produtoEditar.toString());
+
+    }
+
 }

@@ -67,6 +67,12 @@ public class Produto{
         this.estadoConservacao = estadoConservacao;
     }
 
+    public String Mostrar(){
+
+        return id + "       " + nome + "             " + numSerial +"            "+ tipo +"           "+ quantidade +"                 "+ estadoConservacao ;
+
+    }
+
     @Override
     public String toString() {
         return  id  + ";" + nome + ";" + numSerial + ";" + tipo + ";" + quantidade + ";" + estadoConservacao;

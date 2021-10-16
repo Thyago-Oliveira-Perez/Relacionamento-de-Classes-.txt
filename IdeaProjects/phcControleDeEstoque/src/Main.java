@@ -1,3 +1,4 @@
+import javax.sound.sampled.Port;
 import javax.xml.stream.events.EndDocument;
 import java.io.*;
 import java.nio.file.Files;
@@ -17,7 +18,6 @@ public class Main{
 
         Produto produto = new Produto();
         ListaDeProdutos listaDeProdutos = new ListaDeProdutos();
-        //List<String> listaDoArquivo = new ArrayList<>();
 
         Scanner entrada = new Scanner(System.in).useDelimiter("\n");
 
@@ -36,6 +36,7 @@ public class Main{
         FileReader arquivoTxt1 = new FileReader(arquivoDeTexto);
         BufferedReader lerArquivoTxt = new BufferedReader(arquivoTxt1);
 
+        //começa o programa de fato
         while(true){
 
             int opcao = Menu(entrada);
@@ -47,52 +48,7 @@ public class Main{
                     while (true) {
 
                         ////instanciando o arquivo
-                        arquivoTxt = new FileWriter(arquivoDeTexto, true);
-                        gravaArquivoTxt = new PrintWriter(arquivoTxt);
-
-
-                        ////registrando o produto
-                        System.out.println("Id:");
-                        String id = entrada.next();
-
-                        System.out.println("Nome:");
-                        String nome = entrada.next();
-
-                        System.out.println("Numero Serial:");
-                        String numSerial = entrada.next();
-
-                        do {
-
-                            System.out.println("Tipo de produto:");
-                            System.out.println("1 - Eletronico  2 - Não Eletronico");
-                            int tipoP = entrada.nextInt();
-
-                            if (tipoP == 1) {
-
-                                tipo = "Eletronico";
-                                validacao = 1;
-
-                            } else if (tipoP == 2) {
-
-                                tipo = "Não Eletronico";
-                                validacao = 1;
-
-                            } else {
-
-                                System.out.println("Opção inválida. Tente novamente");
-
-                            }
-                        } while (validacao == 0);
-
-                        System.out.print("Quantidade:");
-                        String quant = entrada.next();
-
-                        System.out.print("Estado de consevação:");
-                        String estConservacao = entrada.next();
-
-                        produto = new Produto(id, nome, numSerial, tipo, quant, estConservacao);
-
-                        listaDeProdutos.getLista().add(produto);
+                        registaOsProdutos(entrada, validacao, tipo, produto, listaDeProdutos);
                         ////
 
                         System.out.println("Deseja continuar?");
@@ -128,62 +84,62 @@ public class Main{
                     //
 
                     //Mostrando os produtos que estão no arquivo
-                    mostraOsTodosOsProdutos(listaDoArquivo);
+                    int produtoEscolhido = mostraOsTodosOsProdutos(listaDoArquivo, entrada);
                     //
 
-                    ///////
-                    System.out.println("Escolha o produto:");
-                    int produtoEscolhido = entrada.nextInt();
+                    if(produtoEscolhido!=0){
 
-                    String produtoParaEditar = listaDoArquivo.get(produtoEscolhido - 1);
-                    String[] editaOsValores = produtoParaEditar.split(";");
+                        String produtoParaEditar = listaDoArquivo.get(produtoEscolhido - 1);
+                        String[] editaOsValores = produtoParaEditar.split(";");
 
-                    Produto produtoEditar = new Produto(editaOsValores[0], editaOsValores[1], editaOsValores[2], editaOsValores[3], editaOsValores[4], editaOsValores[5]);
+                        Produto produtoEditar = new Produto(editaOsValores[0], editaOsValores[1], editaOsValores[2], editaOsValores[3], editaOsValores[4], editaOsValores[5]);
 
-                    System.out.println("1 - Editar \n 2 - Excluir \n 3 - Sair");
-                    int editOuExcl =  entrada.nextInt();
+                        System.out.println("1 - Editar \n2 - Excluir \n3 - Sair");
+                        int editOuExcl =  entrada.nextInt();
 
-                    switch (editOuExcl){
+                        switch (editOuExcl){
 
-                        case 1:
+                            case 1:
 
-                            editaOsProdutos(listaDoArquivo, entrada, produtoEditar, produtoEscolhido);
+                                editaOsProdutos(listaDoArquivo, entrada, produtoEditar, produtoEscolhido);
 
-                            ////salva o arquivo
-                            arquivoTxt = new FileWriter(arquivoDeTexto, false);
-                            gravaArquivoTxt = new PrintWriter(arquivoTxt);
+                                ////salva o arquivo já editado
+                                arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                                gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
-                            for(int p = 0; p < listaDoArquivo.size(); p++){
-                                gravaArquivoTxt.println(listaDoArquivo.get(p));
-                            }
+                                for(int p = 0; p < listaDoArquivo.size(); p++){
+                                    gravaArquivoTxt.println(listaDoArquivo.get(p));
+                                }
 
-                            gravaArquivoTxt.flush();
-                            arquivoTxt.close();
-                            gravaArquivoTxt.close();
-                            ////salva o arquivo
+                                gravaArquivoTxt.flush();
+                                arquivoTxt.close();
+                                gravaArquivoTxt.close();
+                                ////salva o arquivo
 
-                        break;
+                                break;
 
-                        case 2:
+                            case 2:
 
-                            ////remove o item da lista antes de salvar no arquivo
-                            listaDoArquivo.remove(produtoEscolhido - 1);
-                            ////
+                                ////remove o item da lista antes de salvar no arquivo
+                                listaDoArquivo.remove(produtoEscolhido - 1);
+                                ////
 
-                            ////salva no arquivo
-                            arquivoTxt = new FileWriter(arquivoDeTexto, false);
-                            gravaArquivoTxt = new PrintWriter(arquivoTxt);
+                                ////salva o arquivo já editado
+                                arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                                gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
-                            for(int p = 0; p < listaDoArquivo.size(); p++){
-                                gravaArquivoTxt.println(listaDoArquivo.get(p));
-                            }
+                                for(int p = 0; p < listaDoArquivo.size(); p++){
+                                    gravaArquivoTxt.println(listaDoArquivo.get(p));
+                                }
 
-                            gravaArquivoTxt.flush();
-                            arquivoTxt.close();
-                            gravaArquivoTxt.close();
-                            ////salva no arquivo
+                                gravaArquivoTxt.flush();
+                                arquivoTxt.close();
+                                gravaArquivoTxt.close();
+                                ////salva no arquivo
 
-                        break;
+                                break;
+                        }
+
                     }
                 break;
                 case 3:
@@ -201,6 +157,8 @@ public class Main{
 
     }
 
+    ///////functions
+
     public static int Menu(Scanner entrada) {
 
         System.out.println("----------------");
@@ -216,24 +174,37 @@ public class Main{
 
     }
 
-    public static void mostraOsTodosOsProdutos(List<String> listaDoArquivo){
+    public static int mostraOsTodosOsProdutos(List<String> listaDoArquivo, Scanner entrada){
 
+        int produtoEscolhido = 0;
+        
         System.out.println("--------------------------------------------------------------------------------------------------------");
         System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
         System.out.println("--------------------------------------------------------------------------------------------------------");
 
-        for (int j = 0; j < listaDoArquivo.size(); j++) {
+        if(listaDoArquivo.isEmpty()){
 
-            String produtoDalista = listaDoArquivo.get(j);
+            System.out.println("Lista vazia. Por favor adicione items primeiro");
 
-            String[] valorEditar = produtoDalista.split(";");
+        }else{
 
-            Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
+            for (int j = 0; j < listaDoArquivo.size(); j++) {
 
-            System.out.println(p.Mostrar());
+                String produtoDalista = listaDoArquivo.get(j);
+
+                String[] valorEditar = produtoDalista.split(";");
+
+                Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
+
+                System.out.println(p.Mostrar());
+
+                System.out.println("Escolha o produto:");
+                produtoEscolhido = entrada.nextInt();
+
+            }
 
         }
-
+        return produtoEscolhido;
     }
 
     public static void editaOsProdutos(List<String> listaDoArquivo, Scanner entrada, Produto produtoEditar, int produtoEscolhido){
@@ -272,6 +243,53 @@ public class Main{
         listaDoArquivo.remove(produtoEscolhido - 1);
 
         listaDoArquivo.add(produtoEscolhido - 1, produtoEditar.toString());
+
+    }
+
+    public static void registaOsProdutos(Scanner entrada, int validacao, String tipo, Produto produto, ListaDeProdutos listaDeProdutos){
+
+        System.out.println("Id:");
+        String id = entrada.next();
+
+        System.out.println("Nome:");
+        String nome = entrada.next();
+
+        System.out.println("Numero Serial:");
+        String numSerial = entrada.next();
+
+        do {
+
+            System.out.println("Tipo de produto:");
+            System.out.println("1 - Eletronico  2 - Não Eletronico");
+            int tipoP = entrada.nextInt();
+
+            if (tipoP == 1) {
+
+                tipo = "Eletronico";
+                validacao = 1;
+
+            } else if (tipoP == 2) {
+
+                tipo = "Não Eletronico";
+                validacao = 1;
+
+            } else {
+
+                System.out.println("Opção inválida. Tente novamente");
+
+            }
+        } while (validacao == 0);
+
+        System.out.print("Quantidade:");
+        String quant = entrada.next();
+
+        System.out.print("Estado de consevação:");
+        String estConservacao = entrada.next();
+
+        produto = new Produto(id, nome, numSerial, tipo, quant, estConservacao);
+
+        listaDeProdutos.getLista().add(produto);
+
 
     }
 

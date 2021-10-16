@@ -94,7 +94,7 @@ public class Main{
 
                         listaDeProdutos.getLista().add(produto);
                         ////
-                        
+
                         System.out.println("Deseja continuar?");
                         System.out.println("1 - Sim | 2 - Não");
                         int continuarOuNao = entrada.nextInt();

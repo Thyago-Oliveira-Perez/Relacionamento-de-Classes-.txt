@@ -116,9 +116,8 @@ public class Main{
 
                 case 2:
 
-                    String lendo = "";
+                    String lendo = "A B";
                     int i = 0;
-                    lendo = "A";
 
                     while (lendo != null) {
 
@@ -134,24 +133,14 @@ public class Main{
                     System.out.println("     ID           NOME            N° Serial            Tipo            Quantidade            Conservação");
                     System.out.println("--------------------------------------------------------------------------------------------------------");
 
-//                    String arroba = "";
-//                    arroba = listaDoArquivo.get(0);
-//
-//                    System.out.println(arroba);
-
                     for (int j = 0; j < listaDoArquivo.size(); j++) {
 
                         String produtoDalista = listaDoArquivo.get(j);
-                        String[] valorEditar = produtoDalista.split(";");
 
-                        produto.setId(valorEditar[0]);
-                        produto.setNome(valorEditar[1]);
-                        produto.setNumSerial(valorEditar[2]);
-                        produto.setTipo(valorEditar[3]);
-                        produto.setQuantidade(valorEditar[4]);
-                        produto.setEstadoConservacao(valorEditar[5]);
+                        //Mostrando os produtos que estão no arquivo
+                        System.out.print(j + 1 + "  ");
+                        mostrarProdutosDoArquivo(produtoDalista);
 
-                        System.out.println(j + 1 + "   " + produto.Mostrar());
                     }
 
                     System.out.println("Escolha o produto que deseja editar:");
@@ -243,6 +232,19 @@ public class Main{
         int opcao = entrada.nextInt();
 
         return opcao;
+
+    }
+
+    public static void mostrarProdutosDoArquivo(String produtoString){
+
+        String[] valorEditar = produtoString.split(";");
+
+        String nome = valorEditar[1];
+        System.out.println(nome);
+
+        Produto p = new Produto(valorEditar[0], nome, valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
+
+        System.out.println(p.Mostrar());
 
     }
 

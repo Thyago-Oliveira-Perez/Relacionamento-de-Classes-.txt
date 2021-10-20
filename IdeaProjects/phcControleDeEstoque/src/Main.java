@@ -198,12 +198,12 @@ public class Main{
 
                 Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
 
-                System.out.println((j+1) + " " +p.Mostrar());
-
-                System.out.println("Escolha o produto:");
-                produtoEscolhido = entrada.nextInt();
+                System.out.println((j+1)+"   "+p.Mostrar());
 
             }
+
+            System.out.println("Escolha o produto:");
+            produtoEscolhido = entrada.nextInt();
 
         }
         return produtoEscolhido;
@@ -291,7 +291,6 @@ public class Main{
         produto = new Produto(id, nome, numSerial, tipo, quant, estConservacao);
 
         listaDeProdutos.getLista().add(produto);
-
 
     }
 

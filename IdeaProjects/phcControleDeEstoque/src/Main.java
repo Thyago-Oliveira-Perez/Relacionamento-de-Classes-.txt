@@ -1,3 +1,4 @@
+import javax.sound.sampled.Control;
 import javax.sound.sampled.Port;
 import javax.xml.stream.events.EndDocument;
 import java.io.*;
@@ -32,6 +33,7 @@ public class Main{
 
         FileWriter arquivoTxt = new FileWriter(arquivoDeTexto, true);
         PrintWriter gravaArquivoTxt = new PrintWriter(arquivoTxt);
+        gravaArquivoTxt.println(listaDeProdutos);
 
         FileReader arquivoTxt1 = new FileReader(arquivoDeTexto);
         BufferedReader lerArquivoTxt = new BufferedReader(arquivoTxt1);
@@ -196,7 +198,7 @@ public class Main{
 
                 Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5]);
 
-                System.out.println(p.Mostrar());
+                System.out.println((j+1) + " " +p.Mostrar());
 
                 System.out.println("Escolha o produto:");
                 produtoEscolhido = entrada.nextInt();

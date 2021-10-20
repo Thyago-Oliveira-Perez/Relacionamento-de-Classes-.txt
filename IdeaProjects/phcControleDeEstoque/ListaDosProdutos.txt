@@ -1,5 +1,0 @@
-00001;raul rios;pqp123;Eletronico;50;novo
-00001;thyago garrido;pqp123;Eletronico;50;novo
-00001;fabiano neuman;pqp123;Eletronico;50;semi-novo
-00001;thyago perez;pqp123;Eletronico;50;idoso
-00001;vitor adams;pqpqp pqpq;Eletronico;50;velho

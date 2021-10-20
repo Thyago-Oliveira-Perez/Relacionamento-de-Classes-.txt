@@ -1,5 +1,0 @@
-0001;thyago perez;090192k;Eletronico;40;novo
-0001;pedro;090192k;Eletronico;40;semi-novo
-0001;vitor admas;090192k;Eletronico;40;usado
-0001;maria;090192k;Eletronico;40;velho
-0003;ana karla;1i2rngsa;Não Eletronico;80;novo

@@ -1,3 +1,0 @@
-00001;raul rios;pqp123;Eletronico;50;novo;4
-00001;thyagao totoso;pqp123;Eletronico;50;semi-novo;5
-01021;thygaga;213;Não Eletronico;566743;novissimo;3

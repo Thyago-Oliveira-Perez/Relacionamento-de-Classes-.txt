@@ -64,52 +64,102 @@ public class Main{
 
                 case 1:
 
+                    int catEscolhida;
+
                     //Lê o arquivo
                     Path path2 = Paths.get("ListaDasCategorias.txt");
                     listaDoArquivoCategorias = Files.readAllLines(path2);
                     //
 
-                    mostraOsTodosAsCategorias(listaDoArquivoCategorias, entrada);
+                    boolean temOuNão = mostraOsTodosAsCategorias(listaDoArquivoCategorias, entrada);
 
-                    System.out.println("Para registar novos produtos\npressione 1, para sair pressiona qualquer número.");
-                    String registrar = entrada.next();
+                    if (temOuNão) {
 
-                    int registrarOuNãoCat = Integer.parseInt(registrar);
+                        System.out.println("\n------------------");
+                        System.out.println("1 - Registrar itens");
+                        System.out.println("2 - Deletar categoria");
+                        System.out.println("0 - Voltar");
+                        String registrar = entrada.next();
 
-                    while(true) {
-                        
-                        if (isNumeric(registrar)) {
+                        int registrarOuNãoCat = Integer.parseInt(registrar);
 
-                            if (registrarOuNãoCat == 1) {
+                        while(true) {
 
-                                System.out.println("Escolha a Categoria:");
-                                int catEscolhida = entrada.nextInt();
+                            if (isNumeric(registrar)) {
 
-                                while(true) {
+                                switch (registrarOuNãoCat) {
 
-                                    ////instanciando o arquivo
-                                    registaOsProdutos(entrada, validacao, tipo, produto, listaDeProdutos, catEscolhida);
-                                    ////
+                                    case 1:
 
-                                    System.out.println("Deseja continuar?");
-                                    System.out.println("1 - Sim | 2 - Não");
-                                    int continuarOuNao = entrada.nextInt();
+                                        System.out.println("Escolha a Categoria que ira receber novos itens:");
+                                        catEscolhida = entrada.nextInt();
 
-                                    salvaProdutosNoArquivo(continuarOuNao, listaDeProdutos, gravaArquivoTxt, arquivoTxt);
-                                    break;
+                                        while (true) {
+
+                                            ////instanciando o arquivo
+                                            registaOsProdutos(entrada, validacao, tipo, produto, listaDeProdutos, catEscolhida);
+                                            ////
+
+                                            System.out.println("Deseja continuar?");
+                                            System.out.println("1 - Sim | 2 - Não");
+                                            int continuarOuNao = entrada.nextInt();
+
+                                            salvaProdutosNoArquivo(continuarOuNao, listaDeProdutos, gravaArquivoTxt, arquivoTxt);
+                                            break;
+                                        }
+                                        break;
+
+                                    case 2:
+
+                                        List produtos = new ArrayList();
+
+                                        Path path = Paths.get("ListaDosProdutos.txt");
+                                        listaDoArquivoProdutos = Files.readAllLines(path);
+
+                                        System.out.println("Escolha a Categoria a ser deleta:");
+                                        catEscolhida = entrada.nextInt();
+
+                                        listaDoArquivoCategorias.remove(catEscolhida - 1);
+
+                                        salvaArquivoCategoriaEditado(arquivoTxtCat, arquivoDeTextoCat, gravaTxtCat, listaDoArquivoCategorias);
+
+                                        for (int j = 0; j < listaDoArquivoProdutos.size(); j++) {
+
+                                            String produtoDalista = listaDoArquivoProdutos.get(j);
+
+                                            String[] valorEditar = produtoDalista.split(";");
+
+                                            int idCategoria = Integer.parseInt(valorEditar[6]);
+
+                                            Produto p = new Produto(valorEditar[0], valorEditar[1], valorEditar[2], valorEditar[3], valorEditar[4], valorEditar[5], idCategoria);
+
+                                            if(p.getIdCategoria() != (catEscolhida - 1)){
+
+                                                produtos.add(p.toString());
+
+                                            }
+
+                                        }
+
+                                        salvaArquivoProdutosEditado(arquivoTxt, arquivoDeTexto, gravaArquivoTxt, produtos);
+
+                                        break;
+
                                 }
-                                break;
                             } else {
 
-                                break;
+                                System.out.println("Digite um valor válido, por favor.");
 
                             }
-                        } else {
-
-                            System.out.println("Digite um valor válido, por favor.");
-
+                            break;
                         }
+
+                    }else{
+
+                        System.out.println("Lista vazia. Por favor adicione items primeiro");
+
                     }
+
 
                 break;
 
@@ -121,77 +171,83 @@ public class Main{
                     //
 
                     //Mostrando os produtos que estão no arquivo
-                    mostraOsTodosOsProdutos(listaDoArquivoProdutos, entrada);
+                    boolean vazioOuNão = mostraOsTodosOsProdutos(listaDoArquivoProdutos, entrada);
                     //
 
-                    System.out.println("Para registar novos produtos\nPressione 1, para sair pressiona qualquer número.");
-                    String registrarOuNãoProd = entrada.next();
+                    if(vazioOuNão){
+                        System.out.println("Para registar novos produtos\nPressione 1, para sair pressiona qualquer número.");
+                        String registrarOuNãoProd = entrada.next();
 
-                    int registrarOuNÃOProd = Integer.parseInt(registrarOuNãoProd);
+                        int registrarOuNÃOProd = Integer.parseInt(registrarOuNãoProd);
 
-                    while(true){
+                        while(true){
 
-                        if(isNumeric(registrarOuNãoProd)){
+                            if(isNumeric(registrarOuNãoProd)){
 
-                            if(registrarOuNÃOProd == 1){
+                                if(registrarOuNÃOProd == 1){
 
-                                System.out.println("Escolha o produto: ");
-                                int produtoEscolhido = entrada.nextInt();
+                                    System.out.println("Escolha o produto: ");
+                                    int produtoEscolhido = entrada.nextInt();
 
-                                if(produtoEscolhido!=0){
+                                    if(produtoEscolhido!=0){
 
-                                    String produtoParaEditar = listaDoArquivoProdutos.get(produtoEscolhido - 1);
-                                    String[] editaOsValores = produtoParaEditar.split(";");
+                                        String produtoParaEditar = listaDoArquivoProdutos.get(produtoEscolhido - 1);
+                                        String[] editaOsValores = produtoParaEditar.split(";");
 
-                                    Produto produtoEditar = new Produto(editaOsValores[0], editaOsValores[1], editaOsValores[2], editaOsValores[3], editaOsValores[4], editaOsValores[5]);
+                                        Produto produtoEditar = new Produto(editaOsValores[0], editaOsValores[1], editaOsValores[2], editaOsValores[3], editaOsValores[4], editaOsValores[5]);
 
-                                    System.out.println("1 - Editar \n2 - Excluir \n3 - Sair");
-                                    int editOuExcl =  entrada.nextInt();
+                                        System.out.println("1 - Editar \n2 - Excluir \n3 - Sair");
+                                        int editOuExcl =  entrada.nextInt();
 
-                                    switch (editOuExcl){
+                                        switch (editOuExcl){
 
-                                        case 1:
+                                            case 1:
 
-                                            editaOsProdutos(listaDoArquivoProdutos, entrada, produtoEditar, produtoEscolhido, listaDoArquivoCategorias, categoria, listaDoArquivoCategorias);
+                                                editaOsProdutos(listaDoArquivoProdutos, entrada, produtoEditar, produtoEscolhido, listaDoArquivoCategorias, categoria, listaDoArquivoCategorias);
 
-                                            ////salva o arquivo já editado
-                                            arquivoTxt = new FileWriter(arquivoDeTexto, false);
-                                            gravaArquivoTxt = new PrintWriter(arquivoTxt);
+                                                ////salva o arquivo já editado
+                                                arquivoTxt = new FileWriter(arquivoDeTexto, false);
+                                                gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
-                                            for(int p = 0; p < listaDoArquivoProdutos.size(); p++){
-                                                gravaArquivoTxt.println(listaDoArquivoProdutos.get(p));
-                                            }
+                                                for(int p = 0; p < listaDoArquivoProdutos.size(); p++){
+                                                    gravaArquivoTxt.println(listaDoArquivoProdutos.get(p));
+                                                }
 
-                                            gravaArquivoTxt.flush();
-                                            arquivoTxt.close();
-                                            gravaArquivoTxt.close();
-                                            ////salva o arquivo
+                                                gravaArquivoTxt.flush();
+                                                arquivoTxt.close();
+                                                gravaArquivoTxt.close();
+                                                ////salva o arquivo
 
-                                            break;
+                                                break;
 
-                                        case 2:
+                                            case 2:
 
-                                            ////remove o item da lista antes de salvar no arquivo
-                                            listaDoArquivoProdutos.remove(produtoEscolhido - 1);
-                                            ////
+                                                ////remove o item da lista antes de salvar no arquivo
+                                                listaDoArquivoProdutos.remove(produtoEscolhido - 1);
+                                                ////
 
-                                            salvaArquivoProdutosEditado(arquivoTxt, arquivoDeTexto, gravaArquivoTxt, listaDoArquivoProdutos);
+                                                salvaArquivoProdutosEditado(arquivoTxt, arquivoDeTexto, gravaArquivoTxt, listaDoArquivoProdutos);
 
-                                            break;
+                                                break;
+                                        }
+                                        break;
                                     }
+                                }else{
+
                                     break;
+
                                 }
+
                             }else{
 
-                                break;
+                                System.out.println("Digite um valor válido, por favor.");
 
                             }
-
-                        }else{
-
-                            System.out.println("Digite um valor válido, por favor.");
-
                         }
+                    } else{
+
+                        System.out.println("Lista vazia. Por favor adicione items primeiro");
+
                     }
                 break;
 
@@ -240,7 +296,9 @@ public class Main{
 
     }
 
-    public static void mostraOsTodosOsProdutos(List<String> listaDoArquivo, Scanner entrada){
+    public static boolean mostraOsTodosOsProdutos(List<String> listaDoArquivo, Scanner entrada){
+
+        boolean naoTemNada = true;
 
         System.out.println("---------");
         System.out.println("Produtos:");
@@ -248,7 +306,7 @@ public class Main{
 
         if(listaDoArquivo.isEmpty()){
 
-            System.out.println("Lista vazia. Por favor adicione items primeiro");
+            naoTemNada = false;
 
         }else{
 
@@ -266,9 +324,12 @@ public class Main{
 
             }
         }
+        return naoTemNada;
     }
 
-    public static void mostraOsTodosAsCategorias(List<String> listaDoArquivoCategorias, Scanner entrada){
+    public static boolean mostraOsTodosAsCategorias(List<String> listaDoArquivoCategorias, Scanner entrada){
+
+        boolean naoTemNada = true;
 
         System.out.println("------------------");
         System.out.println("Categorias:");
@@ -276,7 +337,7 @@ public class Main{
 
         if(listaDoArquivoCategorias.isEmpty()){
 
-            System.out.println("Lista vazia. Por favor adicione items primeiro");
+            naoTemNada = false;
 
         }else{
 
@@ -290,6 +351,8 @@ public class Main{
 
             }
         }
+
+        return naoTemNada;
     }
 
     public static void registrarCategorias(Scanner entrada, Categoria categoria, ListaDeCategorias listaDeCategorias){
@@ -482,7 +545,6 @@ public class Main{
 
     public static void salvaArquivoProdutosEditado(FileWriter arquivoTxt, File arquivoDeTexto, PrintWriter gravaArquivoTxt, List listaDoArquivoProdutos) throws IOException {
 
-        ////salva o arquivo já editado
         arquivoTxt = new FileWriter(arquivoDeTexto, false);
         gravaArquivoTxt = new PrintWriter(arquivoTxt);
 
@@ -493,9 +555,24 @@ public class Main{
         gravaArquivoTxt.flush();
         arquivoTxt.close();
         gravaArquivoTxt.close();
-        ////salva o arquivo
 
     }
+
+    public static void salvaArquivoCategoriaEditado(FileWriter arquivoTxtCat, File arquivoDeTextoCat, PrintWriter gravaTxtCat, List listaDoArquivoCategorias) throws IOException {
+
+        arquivoTxtCat = new FileWriter(arquivoDeTextoCat, false);
+        gravaTxtCat = new PrintWriter(arquivoTxtCat);
+
+        for(int p = 0; p < listaDoArquivoCategorias.size(); p++){
+            gravaTxtCat.println(listaDoArquivoCategorias.get(p));
+        }
+
+        gravaTxtCat.flush();
+        arquivoTxtCat.close();
+        gravaTxtCat.close();
+
+    }
+
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {

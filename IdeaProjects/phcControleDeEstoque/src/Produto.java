@@ -6,6 +6,7 @@ public class Produto{
     private String tipo;
     private String quantidade;
     private String estadoConservacao;
+    private int IdCategoria;
 
     public Produto() {
     }
@@ -17,6 +18,16 @@ public class Produto{
         this.tipo = tipo;
         this.quantidade = quantidade;
         this.estadoConservacao = estadoConservacao;
+    }
+
+    public Produto(String id, String nome, String numSerial, String tipo, String quantidade, String estadoConservacao, int idCategoria) {
+        this.id = id;
+        this.nome = nome;
+        this.numSerial = numSerial;
+        this.tipo = tipo;
+        this.quantidade = quantidade;
+        this.estadoConservacao = estadoConservacao;
+        this.IdCategoria = idCategoria;
     }
 
     public String getId() {
@@ -67,14 +78,22 @@ public class Produto{
         this.estadoConservacao = estadoConservacao;
     }
 
+    public int getIdCategoria() {
+        return IdCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        IdCategoria = idCategoria;
+    }
+
     public String Mostrar(){
 
-        return id + "       " + nome + "             " + numSerial +"            "+ tipo +"           "+ quantidade +"                 "+ estadoConservacao ;
+        return "id: " + id + " | " + "Nome: " + nome + " | " + "N° Serial: " + numSerial + " | " + "Tipo: " + tipo + " | " + "Quant.: " + quantidade + " | " + "Conservação: " + estadoConservacao + " | " + "Id Categoria: " + IdCategoria;
 
     }
 
     @Override
     public String toString() {
-        return  id  + ";" + nome + ";" + numSerial + ";" + tipo + ";" + quantidade + ";" + estadoConservacao;
+        return  id  + ";" + nome + ";" + numSerial + ";" + tipo + ";" + quantidade + ";" + estadoConservacao + ";" + IdCategoria;
     }
 }

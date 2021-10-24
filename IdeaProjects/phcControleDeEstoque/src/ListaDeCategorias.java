@@ -1,26 +1,22 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaDeProdutos {
+public class ListaDeCategorias{
 
-    List<Produto> lista = new ArrayList<Produto>();
+    List<String> lista = new ArrayList<String>();
 
-    public ListaDeProdutos() {
+    public ListaDeCategorias() {
     }
 
-    public ListaDeProdutos(List<Produto> lista) {
+    public ListaDeCategorias(List<String> lista) {
         this.lista = lista;
     }
 
-    public List<Produto> getLista() {
+    public List<String> getLista() {
         return lista;
     }
 
-    public void setLista(List<Produto> lista) {
+    public void setLista(List<String> lista) {
         this.lista = lista;
     }
 
@@ -40,5 +36,4 @@ public class ListaDeProdutos {
         lista.clear();
 
     }
-
 }

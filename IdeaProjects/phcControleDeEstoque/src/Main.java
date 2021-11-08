@@ -169,7 +169,7 @@ public class Main{
                     int registrarOuNãoProdInt = 0;
 
                     //Mostrando os produtos que estão no arquivo
-                    boolean vazioOuNão = mostraOsTodosOsProdutos(listaDoArquivoProdutos, entrada);
+                    boolean vazioOuNão = mostraOsTodosOsProdutos(listaDoArquivoProdutos);
                     //
 
                     if(vazioOuNão){
@@ -294,7 +294,7 @@ public class Main{
 
     }
 
-    public static boolean mostraOsTodosOsProdutos(List<String> listaDoArquivo, Scanner entrada){
+    public static boolean mostraOsTodosOsProdutos(List<String> listaDoArquivo){
 
         boolean naoTemNada = true;
 
@@ -515,7 +515,6 @@ public class Main{
             gravaTxtCat.close();
 
         }
-
     }
 
     public static void salvaProdutosNoArquivo(ListaDeProdutos listaDeProdutos, PrintWriter gravaArquivoTxt, FileWriter arquivoTxt) throws IOException {

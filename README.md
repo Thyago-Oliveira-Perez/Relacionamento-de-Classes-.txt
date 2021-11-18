@@ -1,2 +1,3 @@
-# My first real project in Java. 
-# An ERP system to control a company's inventory 
+# Usado para estudar relacionameno de classes
+# e uma simulação de banco de dados, aonde os
+# arquivos .txt são como os schemas (tablas).
